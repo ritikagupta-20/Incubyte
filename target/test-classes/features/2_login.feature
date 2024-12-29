@@ -5,6 +5,12 @@ Feature: User Login
         When the user enters valid login credentials
         And the user submits the login form with valid credentials
         Then the user should be successfully logged in with valid credentials
+    
+    Scenario: Login by pressing "Enter" key
+        Given the user is on the login page
+        When the user fills in valid login credentials
+        And the user hits 'Enter' after filling in the password
+        Then the user should be successfully logged in using Enter key
 
     Scenario: Unsuccessful login with invalid credentials
         Given the user is on the login page

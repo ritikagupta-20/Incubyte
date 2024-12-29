@@ -1,5 +1,6 @@
 package com.automation.pages;
 
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -32,6 +33,11 @@ public class LoginPage {
         password.sendKeys(pwd);
     }
 
+    // Method to press Enter key after entering password
+    public void pressPasswordEnterKey() {
+        password.sendKeys(Keys.ENTER);
+    }
+
     // Method to login
     public void login() {
         loginButton.click();
@@ -41,4 +47,5 @@ public class LoginPage {
     public String getPageErrorMessage() {
         return pageErrorMessage.getText();
     }
+
 }

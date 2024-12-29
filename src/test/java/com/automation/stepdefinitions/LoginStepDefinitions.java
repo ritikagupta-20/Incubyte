@@ -12,7 +12,6 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 
-
 public class LoginStepDefinitions {
     WebDriver driver;
     LoginPage loginPage;
@@ -20,6 +19,7 @@ public class LoginStepDefinitions {
     @Given("the user is on the login page")
     public void navigateToLoginPage() {
         driver = new ChromeDriver();
+        driver.manage().window().maximize(); // Maximize the browser window
         driver.get("https://magento.softwaretestingboard.com/customer/account/login/");
         loginPage = new LoginPage(driver);
     }
@@ -41,6 +41,24 @@ public class LoginStepDefinitions {
         assertTrue("Login not successful.", actualURL.equals(expectedURL));
     }
 
+    // Positive Scenario: Login by pressing "Enter" key
+    @When("the user fills in valid login credentials")
+    public void userFillsInValidCredentials() {
+        loginPage.fillLoginForm(Constants.USERNAME, Constants.PASSWORD);
+    }
+
+    @And("the user hits 'Enter' after filling in the password")
+    public void userPressesEnterKey() {
+        loginPage.pressPasswordEnterKey();
+    }
+
+    @Then("the user should be successfully logged in using Enter key")
+    public void userShouldBeSuccessfullyLoggedIn() {
+        String expectedURL = "https://magento.softwaretestingboard.com/customer/account/";
+        String actualURL = driver.getCurrentUrl();
+        assertTrue("Login not successful.", actualURL.equals(expectedURL));
+    }
+
     // Negative Scenario: Unsuccessful login with invalid credentials
     @When("the user enters invalid login credentials {string} and {string}")
     public void enterInvalidLoginCredentials(String email, String password) {
@@ -55,7 +73,8 @@ public class LoginStepDefinitions {
     @Then("the user should see an error message for invalid credentials {string}")
     public void verifyLoginInvalidCredentialsErrorMessage(String expectedError) {
         String actualError = loginPage.getPageErrorMessage();
-        assertTrue("Expected error message for invalid credentials not displayed.", actualError.contains(expectedError));
+        assertTrue("Expected error message for invalid credentials not displayed.",
+                actualError.contains(expectedError));
     }
 
     // Negative Scenario: Unsuccessful login with blank fields
@@ -67,7 +86,8 @@ public class LoginStepDefinitions {
     @Then("the user should see an error message for invalid blank input {string}")
     public void verifyLoginBlankFieldsErrorMessage(String expectedError) {
         String actualError = loginPage.getPageErrorMessage();
-        assertTrue("Expected error message for invalid blank fields not displayed.", actualError.contains(expectedError));
+        assertTrue("Expected error message for invalid blank fields not displayed.",
+                actualError.contains(expectedError));
     }
 
     // Negative Scenario: Unsuccessful login with empty password

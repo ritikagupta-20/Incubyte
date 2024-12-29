@@ -1,6 +1,12 @@
 package com.automation.pages;
 
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
+
+import java.security.Key;
+import java.time.Duration;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
@@ -38,6 +44,9 @@ public class SignupPage {
 
     @FindBy(css = ".message-success")
     WebElement pageSuccessMessage;
+
+    @FindBy(css = "#password-strength-meter-label")
+    WebElement passwordStrengthMeterLabel;
 
     // Constructor to initialize driver and web elements
     public SignupPage(WebDriver driver) {
@@ -77,5 +86,20 @@ public class SignupPage {
     // Method to get page error message
     public String getPageErrorMessage() {
         return pageErrorMessage.getText();
+    }
+
+    /**
+     * Method to get the password feedback message.
+     *
+     * @param driver the WebDriver
+     * @param expectedText the expected text
+     * @param timeoutInSeconds the maximum time to wait in seconds
+     * @return the password feedback message
+     */
+    public String getPasswordFeedbackMessage(WebDriver driver, String expectedText, int timeoutInSeconds) 
+    {
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(timeoutInSeconds));
+        wait.until(ExpectedConditions.textToBePresentInElement(passwordStrengthMeterLabel, expectedText));
+        return passwordStrengthMeterLabel.getText();
     }
 }
