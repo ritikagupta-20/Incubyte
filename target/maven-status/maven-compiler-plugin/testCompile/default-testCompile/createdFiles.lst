@@ -1,0 +1,3 @@
+com/automation/testrunner/TestRunner.class
+com/automation/stepdefinitions/SignupStepDefinitions.class
+com/automation/stepdefinitions/LoginStepDefinitions.class
